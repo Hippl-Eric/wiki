@@ -10,6 +10,11 @@ def index(request):
     })
 
 def entry(request, entry_name):
+    if not util.get_entry(entry_name):
+        return render(request, "encyclopedia/apology.html", {
+            "message": "Sorry, the page you are looking for does not exist here."
+        })
+        
     entry_txt = util.get_entry(entry_name)
     entry_html = markdown2.markdown(entry_txt)
     return render(request, "encyclopedia/entry.html", {
