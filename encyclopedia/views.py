@@ -21,3 +21,10 @@ def entry(request, entry_name):
         "entry_name": entry_name,
         "entry_content": entry_html
     })
+
+def search(request):
+    query = request.GET.get("q")
+    if query:
+        return render(request, "encyclopedia/search.html", {
+            "search_results": query,
+        })
