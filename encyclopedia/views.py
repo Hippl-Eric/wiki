@@ -48,6 +48,12 @@ def search(request):
     else:
         return redirect("index")
 
+def create_ent(request):
+    if request.method == "POST":
+        pass
+    else:
+        return render(request, "encyclopedia/create_ent.html")
+
 def random_ent(request):
 
     # Grab all entries
