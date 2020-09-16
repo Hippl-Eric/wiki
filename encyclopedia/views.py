@@ -1,6 +1,6 @@
 import markdown2
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . import util
 
 
@@ -25,6 +25,24 @@ def entry(request, entry_name):
 def search(request):
     query = request.GET.get("q")
     if query:
+        # Grab all entries
+        all_entries = util.list_entries()
+
+        # Check for an exact match
+        for entry in all_entries:
+            if query.upper() == entry.upper():
+                return redirect("entry", entry)
+        
+        # Check for partial matches
+        partial_match_list = []
+        for entry in all_entries:
+            if query.upper() in entry.upper():
+                partial_match_list.append(entry)
         return render(request, "encyclopedia/search.html", {
-            "search_results": query,
+            "query": query,
+            "search_results": partial_match_list,
         })
+
+    # User did not specify a search query
+    else:
+        return redirect("index")
