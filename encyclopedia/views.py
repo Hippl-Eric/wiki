@@ -1,4 +1,5 @@
 import markdown2
+import random
 
 from django.shortcuts import render, redirect
 from . import util
@@ -46,3 +47,14 @@ def search(request):
     # User did not specify a search query
     else:
         return redirect("index")
+
+def random_ent(request):
+
+    # Grab all entries
+    all_entries = util.list_entries()
+
+    # Choose a random index
+    idx = random.randint(0, len(all_entries) - 1)
+
+    # Return entry at index
+    return redirect("entry", all_entries[idx])
