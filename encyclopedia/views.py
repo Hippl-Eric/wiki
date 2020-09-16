@@ -48,11 +48,33 @@ def search(request):
     else:
         return redirect("index")
 
-def create_ent(request):
+def create_ent(request, entry_bool=True, entry_title=None):
     if request.method == "POST":
-        pass
+        
+        # Grab form submission data
+        title = request.POST.get("title")
+        content = request.POST.get("content")
+
+        # Check if entry already exists
+        all_entries = util.list_entries()
+        for entry in all_entries:
+            if title.upper() == entry.upper():
+                return render(request, "encyclopedia/create_ent.html", {
+                    "entry_bool": False,
+                    "entry_title": entry,
+                })
+
+        # Save new entry
+        util.save_entry(title, content)
+
+        # Redirect to entry page
+        return redirect("entry", title)
+
     else:
-        return render(request, "encyclopedia/create_ent.html")
+        return render(request, "encyclopedia/create_ent.html", {
+            "entry_bool": True,
+            "entry_title": None,
+        })
 
 def random_ent(request):
 
