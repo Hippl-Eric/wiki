@@ -11,12 +11,12 @@ def index(request):
     })
 
 def entry(request, entry_name):
-    if not util.get_entry(entry_name):
+    entry_txt = util.get_entry(entry_name)
+    if not entry_txt:
         return render(request, "encyclopedia/apology.html", {
             "message": "Sorry, the page you are looking for does not exist here."
         })
         
-    entry_txt = util.get_entry(entry_name)
     entry_html = markdown2.markdown(entry_txt)
     return render(request, "encyclopedia/entry.html", {
         "entry_name": entry_name,
@@ -74,6 +74,16 @@ def create_ent(request, entry_bool=True, entry_title=None):
         return render(request, "encyclopedia/create_ent.html", {
             "entry_bool": True,
             "entry_title": None,
+        })
+
+def edit_ent(request, entry_name):
+    if request.method == "POST":
+        pass
+    else:
+        entry_content = util.get_entry(entry_name)
+        return render(request, "encyclopedia/edit_ent.html", {
+            "entry_name": entry_name,
+            "entry_content": entry_content,
         })
 
 def random_ent(request):
