@@ -78,8 +78,19 @@ def create_ent(request, entry_bool=True, entry_title=None):
 
 def edit_ent(request, entry_name):
     if request.method == "POST":
-        pass
+
+        # Grab form submission data
+        content = request.POST.get("content")
+
+        # Save modified entry
+        util.save_entry(entry_name, content)
+
+        # Redirect to entry page
+        return redirect("entry", entry_name)
+
     else:
+
+        # Return the edit entry page
         entry_content = util.get_entry(entry_name)
         return render(request, "encyclopedia/edit_ent.html", {
             "entry_name": entry_name,
