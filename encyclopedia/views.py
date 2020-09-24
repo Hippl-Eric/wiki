@@ -99,7 +99,7 @@ def create_ent(request):
 
 def edit_ent(request, entry_name):
     """
-    All entries include an edit entry link.  Existing entry content is loaded into a text area.  Submitted edits modifiy the existing entry file, and redirect user to updated entry page.
+    All entries include an edit entry link.  Existing entry content is loaded into a text area.  Submitted edits modify the existing entry file, and redirect user to updated entry page.
     """
     
     if request.method == "POST":
